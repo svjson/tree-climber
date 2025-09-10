@@ -15,6 +15,18 @@ export const findAncestorOfType = (node: SyntaxNode, allowed: string[]) => {
   return null
 }
 
+export const findDescendantOfType = (
+  node: SyntaxNode,
+  allowed: string[]
+): SyntaxNode | null => {
+  for (const child of node.children) {
+    if (allowed.includes(child.type)) return child
+    const matchingDescendant = findDescendantOfType(child, allowed)
+    if (matchingDescendant) return matchingDescendant
+  }
+  return null
+}
+
 export const findNodeOfType = (
   tree: Tree,
   point: Point,
