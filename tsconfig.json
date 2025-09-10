@@ -1,5 +1,15 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true
-  }
+    "target": "ES2022",
+    "module": "NodeNext",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDirs": ["src", "test"],
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
+  },
+  "include": ["src", "test"]
 }

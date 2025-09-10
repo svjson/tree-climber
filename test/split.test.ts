@@ -2,7 +2,7 @@ import Parser from 'tree-sitter'
 import TypeScript from 'tree-sitter-typescript'
 
 import { describe, expect, it } from 'vitest'
-import { splitExpressionAt } from '../src/split'
+import { splitExpressionAt } from '@src/index'
 
 const parser = new Parser()
 parser.setLanguage(TypeScript.typescript)
