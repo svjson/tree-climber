@@ -3,9 +3,12 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "moduleDetection": "force",
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "rootDirs": ["src", "test"],
     "baseUrl": ".",
     "paths": {

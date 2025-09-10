@@ -1,9 +1,13 @@
 import { Tree, Point } from 'tree-sitter'
 import { findNodeOfType } from './ast'
+import { OperationResult } from './types'
 
 const SPLITTABLE = ['string']
 
-export const splitExpressionAt = (tree: Tree, point: Point) => {
+export const splitExpressionAt = (
+  tree: Tree,
+  point: Point
+): OperationResult | null => {
   const expNode = findNodeOfType(tree, point, SPLITTABLE)
   if (expNode) {
     const delimitLeft = expNode.children[0]
