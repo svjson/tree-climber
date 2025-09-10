@@ -40,7 +40,7 @@ export const startService = async (port: number = 4434) => {
       if (result === null) {
         reply.status(204).send()
       } else {
-        reply.status(200).send(result)
+        reply.status(200).send({ point: result })
       }
     }
   )
