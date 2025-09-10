@@ -1,0 +1,18 @@
+{
+  "name": "tree-climber",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "tree-sitter": "^0.21.1",
+    "tree-sitter-typescript": "^0.23.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+
+}
