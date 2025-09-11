@@ -1,2 +1,2 @@
 export { splitExpressionAt } from './split'
-export { scopeEnd, scopeStart, scopeInto } from './navigation'
+export { scopeEnd, scopeStart, scopeInto } from './scope'

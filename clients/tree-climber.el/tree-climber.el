@@ -105,6 +105,11 @@
   (interactive)
   (tree-climber--navigate "scopeInto"))
 
+(defun tree-climber-scope-out ()
+  "Move point to the start of the containing parent scope."
+  (interactive)
+  (tree-climber--navigate "scopeOut"))
+
 
 
 ;; Operation Commands
@@ -145,6 +150,7 @@
     (define-key map (kbd "C-M-<left>") #'tree-climber-scope-start)
     (define-key map (kbd "C-M-<right>") #'tree-climber-scope-end)
     (define-key map (kbd "C-M-<down>") #'tree-climber-scope-into)
+    (define-key map (kbd "C-M-<up>") #'tree-climber-scope-out)
     (define-key map (kbd "M-m j s") #'tree-climber-split-expr)
     map)
   "Keymap for `tree-climber-mode`.")

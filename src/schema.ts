@@ -9,6 +9,7 @@ export const NavigationCommandNameSchema = z.enum([
   'scopeEnd',
   'scopeStart',
   'scopeInto',
+  'scopeOut',
 ])
 
 export const NavigateRequestBodySchema = z.object({

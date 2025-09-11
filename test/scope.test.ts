@@ -4,6 +4,7 @@ import TypeScript from 'tree-sitter-typescript'
 import { describe, expect, it } from 'vitest'
 import { scopeEnd, scopeInto, scopeStart } from '@src/index'
 import { readAsset } from './fixtures'
+import { scopeOut } from './scope'
 
 const parser = new Parser()
 parser.setLanguage(TypeScript.typescript)
@@ -33,6 +34,15 @@ describe('Scope Navigation', () => {
     expect(scopeInto(tree, { row: 2, column: 24 })).toEqual({
       row: 3,
       column: 10,
+    })
+  })
+
+  it('scopeOut', () => {
+    const tree = parser.parse(readAsset('ts/route-metadata._ts'))
+
+    expect(scopeOut(tree, { row: 3, column: 10 })).toEqual({
+      row: 2,
+      column: 24,
     })
   })
 })
