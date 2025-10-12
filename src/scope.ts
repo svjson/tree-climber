@@ -9,22 +9,26 @@ const SCOPE_TYPES = [
   'statement_block',
 ]
 
+export const scopeAt = (tree: Tree, point: Point) => {
+  return findNodeOfType(tree, point, SCOPE_TYPES)
+}
+
 export const scopeStart = (tree: Tree, point: Point) => {
   const scope =
-    findNodeOfType(tree, point, SCOPE_TYPES) ||
+    scopeAt(tree, point) ||
     findNodeOfType(tree, { ...point, column: point.column - 1 }, SCOPE_TYPES)
 
   return scope.startPosition
 }
 
 export const scopeEnd = (tree: Tree, point: Point) => {
-  const scope = findNodeOfType(tree, point, SCOPE_TYPES)
+  const scope = scopeAt(tree, point)
 
   return scope.endPosition
 }
 
 export const scopeInto = (tree: Tree, point: Point) => {
-  const current = findNodeOfType(tree, point, SCOPE_TYPES)
+  const current = scopeAt(tree, point)
 
   const childScope = findDescendantOfType(current, SCOPE_TYPES)
 
@@ -32,7 +36,7 @@ export const scopeInto = (tree: Tree, point: Point) => {
 }
 
 export const scopeOut = (tree: Tree, point: Point) => {
-  const current = findNodeOfType(tree, point, SCOPE_TYPES)
+  const current = scopeAt(tree, point)
 
   const parentScope = findAncestorOfType(current.parent, SCOPE_TYPES)
 
