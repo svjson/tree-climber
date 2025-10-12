@@ -4,7 +4,7 @@ import TypeScript from 'tree-sitter-typescript'
 import { describe, expect, it } from 'vitest'
 import { scopeEnd, scopeInto, scopeStart } from '@src/index'
 import { readAsset } from './fixtures'
-import { scopeOut } from './scope'
+import { scopeOut } from '@src/index'
 
 const parser = new Parser()
 parser.setLanguage(TypeScript.typescript)
