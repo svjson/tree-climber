@@ -1,5 +1,6 @@
 import z from 'zod/v4'
 import { splitExpressionAt } from './split'
+import { barfForwardAt } from './barf'
 import Parser, { Point, Tree } from 'tree-sitter'
 import TypeScript from 'tree-sitter-typescript'
 import { OperationCommandNameSchema } from './schema'
@@ -9,6 +10,7 @@ export type OperationCommandName = z.infer<typeof OperationCommandNameSchema>
 
 const OPERATION_COMMANDS: Record<OperationCommandName, OperationCommand> = {
   splitExpr: splitExpressionAt,
+  barfForward: barfForwardAt,
 }
 
 export const executeOperationCommand = (

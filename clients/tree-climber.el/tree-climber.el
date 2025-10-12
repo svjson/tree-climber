@@ -90,6 +90,11 @@
                               (forward-line row)
                               (forward-char col)))))))
 
+(defun tree-climber-barf-forward ()
+  "Barf last child from current scope."
+  (interactive)
+  (tree-climber--operate "barfForward"))
+
 (defun tree-climber-scope-start ()
   "Move point to start of current scope."
   (interactive)
@@ -152,6 +157,7 @@
     (define-key map (kbd "C-M-<down>") #'tree-climber-scope-into)
     (define-key map (kbd "C-M-<up>") #'tree-climber-scope-out)
     (define-key map (kbd "M-m j s") #'tree-climber-split-expr)
+    (define-key map (kbd "s-<left>") #'tree-climber-barf-forward)
     map)
   "Keymap for `tree-climber-mode`.")
 

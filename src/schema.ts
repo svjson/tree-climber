@@ -22,7 +22,7 @@ export const NavigateResponseBodySchema = z.object({
   point: PointSchema,
 })
 
-export const OperationCommandNameSchema = z.enum(['splitExpr'])
+export const OperationCommandNameSchema = z.enum(['splitExpr', 'barfForward'])
 
 export const OperationRequestBodySchema = z.object({
   command: OperationCommandNameSchema,

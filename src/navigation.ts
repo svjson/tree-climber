@@ -1,8 +1,7 @@
-import Parser, { Tree, Point } from 'tree-sitter'
+import Parser, { Point } from 'tree-sitter'
 import TypeScript from 'tree-sitter-typescript'
 import z from 'zod/v4'
 
-import { findDescendantOfType, findNodeOfType } from './ast'
 import { scopeEnd, scopeInto, scopeOut, scopeStart } from './scope'
 import { NavigationCommandNameSchema } from './schema'
 import { NavigationCommand } from './types'

@@ -1,2 +1,3 @@
 export { splitExpressionAt } from './split'
-export { scopeEnd, scopeStart, scopeInto } from './scope'
+export { barfForwardAt } from './barf'
+export { scopeEnd, scopeStart, scopeInto, scopeOut } from './scope'
