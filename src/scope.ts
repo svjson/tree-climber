@@ -1,7 +1,13 @@
 import { Point, Tree } from 'tree-sitter'
 import { findAncestorOfType, findDescendantOfType, findNodeOfType } from './ast'
 
-const SCOPE_TYPES = ['interface_body', 'object_type']
+const SCOPE_TYPES = [
+  'formal_parameters',
+  'interface_body',
+  'object',
+  'object_type',
+  'statement_block',
+]
 
 export const scopeStart = (tree: Tree, point: Point) => {
   const scope =
