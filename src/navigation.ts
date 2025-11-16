@@ -1,10 +1,10 @@
-import Parser, { Point } from 'tree-sitter'
-import TypeScript from 'tree-sitter-typescript'
+import { Point } from 'tree-sitter'
 import z from 'zod/v4'
 
 import { scopeEnd, scopeInto, scopeOut, scopeStart } from './scope'
 import { NavigationCommandNameSchema } from './schema'
 import { NavigationCommand } from './types'
+import { LanguageContext } from './lang'
 
 export type NavigationCommandName = z.infer<typeof NavigationCommandNameSchema>
 
@@ -16,14 +16,11 @@ const NAVIGATION_COMMANDS: Record<NavigationCommandName, NavigationCommand> = {
 }
 
 export const executeNavigationCommand = (
+  lang: LanguageContext,
   command: NavigationCommandName,
   content: string,
   point: Point
 ) => {
-  const parser = new Parser()
-  parser.setLanguage(TypeScript.typescript)
-
-  const tree = parser.parse(content)
-
+  const tree = lang.parser.parse(content)
   return NAVIGATION_COMMANDS[command](tree, point)
 }

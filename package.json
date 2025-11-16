@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "test": "vitest run",
     "dev": "nodemon --watch src --ext ts --exec vite-node src/server.ts"
   },

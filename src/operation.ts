@@ -1,10 +1,10 @@
 import z from 'zod/v4'
 import { splitExpressionAt } from './split'
 import { barfForwardAt } from './barf'
-import Parser, { Point, Tree } from 'tree-sitter'
-import TypeScript from 'tree-sitter-typescript'
+import { Point } from 'tree-sitter'
 import { OperationCommandNameSchema } from './schema'
-import { OperationCommand, OperationResult } from './types'
+import { OperationCommand } from './types'
+import { LanguageContext } from './lang'
 
 export type OperationCommandName = z.infer<typeof OperationCommandNameSchema>
 
@@ -14,14 +14,12 @@ const OPERATION_COMMANDS: Record<OperationCommandName, OperationCommand> = {
 }
 
 export const executeOperationCommand = (
+  lang: LanguageContext,
   command: OperationCommandName,
   content: string,
   point: Point
 ) => {
-  const parser = new Parser()
-  parser.setLanguage(TypeScript.typescript)
-
-  const tree = parser.parse(content)
+  const tree = lang.parser.parse(content)
 
   return OPERATION_COMMANDS[command](tree, point)
 }

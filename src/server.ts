@@ -14,6 +14,7 @@ import {
 } from './schema'
 import { executeNavigationCommand } from './navigation'
 import { executeOperationCommand } from './operation'
+import { makeLanguageContext } from './lang'
 
 type NavigateRequestBody = z.infer<typeof NavigateRequestBodySchema>
 type OperationRequestBody = z.infer<typeof OperationRequestBodySchema>
@@ -34,8 +35,14 @@ export const startService = async (port: number = 4434) => {
       },
     },
     async (req: FastifyRequest<{ Body: NavigateRequestBody }>, reply) => {
-      const { command, content, point } = req.body
-      const result = executeNavigationCommand(command, content, point)
+      const { lang, command, content, point } = req.body
+      const langContext = await makeLanguageContext(lang)
+      const result = executeNavigationCommand(
+        langContext,
+        command,
+        content,
+        point
+      )
 
       if (result === null) {
         reply.status(204).send()
@@ -57,8 +64,14 @@ export const startService = async (port: number = 4434) => {
     },
 
     async (req: FastifyRequest<{ Body: OperationRequestBody }>, reply) => {
-      const { command, content, point } = req.body
-      const result = executeOperationCommand(command, content, point)
+      const { lang, command, content, point } = req.body
+      const langContext = await makeLanguageContext(lang)
+      const result = executeOperationCommand(
+        langContext,
+        command,
+        content,
+        point
+      )
 
       if (result === null) {
         reply.status(204).send()

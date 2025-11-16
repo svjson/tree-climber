@@ -1,8 +1,20 @@
 import z from 'zod/v4'
 
+/**
+ * Point/Cursor position schema
+ */
 export const PointSchema = z.object({
   row: z.number().int(),
   column: z.number().int(),
+})
+
+/**
+ * Base request body shape for all types of commands
+ */
+export const RequestBodySchema = z.object({
+  lang: z.string(),
+  point: PointSchema,
+  content: z.string(),
 })
 
 export const NavigationCommandNameSchema = z.enum([
@@ -12,10 +24,8 @@ export const NavigationCommandNameSchema = z.enum([
   'scopeOut',
 ])
 
-export const NavigateRequestBodySchema = z.object({
+export const NavigateRequestBodySchema = RequestBodySchema.extend({
   command: NavigationCommandNameSchema,
-  point: PointSchema,
-  content: z.string(),
 })
 
 export const NavigateResponseBodySchema = z.object({
@@ -24,10 +34,8 @@ export const NavigateResponseBodySchema = z.object({
 
 export const OperationCommandNameSchema = z.enum(['splitExpr', 'barfForward'])
 
-export const OperationRequestBodySchema = z.object({
+export const OperationRequestBodySchema = RequestBodySchema.extend({
   command: OperationCommandNameSchema,
-  point: PointSchema,
-  content: z.string(),
 })
 
 export const OperationResponseBodySchema = z.object({
