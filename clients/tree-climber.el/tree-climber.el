@@ -123,7 +123,8 @@
 
 (defun tree-climber--operate (command)
   "Send an operation COMMAND and replace buffer text at returned range."
-  (let ((payload `((command . ,command)
+  (let ((payload `((lang . ,(treesit-language-at (point)))
+                   (command . ,command)
                    (point . ,(tree-climber--point-position))
                    (content . ,(tree-climber--buffer-content)))))
     (tree-climber--post "/operation" payload
