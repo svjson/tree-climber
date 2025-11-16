@@ -17,7 +17,7 @@ const LANGUAGES = {
 const initializedLanguages: Record<string, LanguageContext> = {}
 
 export const makeLanguageContext = async (lang: string) => {
-  const language = lang.toLocaleLowerCase()
+  const language = lang.toLowerCase()
   if (!initializedLanguages[language]) {
     if (!LANGUAGES[language]) {
       throw new Error(`Unsupported language: ${lang}(${language})`)
