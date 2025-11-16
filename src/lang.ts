@@ -16,13 +16,17 @@ const LANGUAGES = {
 
 const initializedLanguages: Record<string, LanguageContext> = {}
 
-export const makeLanguageContext = async (lang: string) => {
+export const makeLanguageContext = async (lang: string, language: string) => {
+  if (!LANGUAGES[language]) {
+    throw new Error(`Unsupported language: ${lang}(${language})`)
+  }
+  initializedLanguages[language] = await LANGUAGES[language]()
+}
+
+export const getLanguageContext = async (lang: string) => {
   const language = lang.toLowerCase()
   if (!initializedLanguages[language]) {
-    if (!LANGUAGES[language]) {
-      throw new Error(`Unsupported language: ${lang}(${language})`)
-    }
-    initializedLanguages[language] = await LANGUAGES[language]()
+    await makeLanguageContext(lang, language)
   }
   return initializedLanguages[language]
 }

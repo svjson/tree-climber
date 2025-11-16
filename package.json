@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "dev": "nodemon --watch src --ext ts --exec vite-node src/server.ts"
+    "dev": "nodemon --watch src --ext ts --exec vite-node src/server/index.ts"
   },
   "dependencies": {
     "fastify": "^5.6.0",
