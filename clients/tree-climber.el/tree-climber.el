@@ -32,6 +32,7 @@
 
 (require 'request)
 (require 'json)
+(require 'treesit)
 
 
 
@@ -78,7 +79,8 @@
 
 (defun tree-climber--navigate (command)
   "Send a navigation COMMAND and move point to response if valid."
-  (let ((payload `((command . ,command)
+  (let ((payload `((lang . ,(treesit-language-at (point)))
+                   (command . ,command)
                    (point . ,(tree-climber--point-position))
                    (content . ,(tree-climber--buffer-content)))))
     (tree-climber--post "/navigate" payload
