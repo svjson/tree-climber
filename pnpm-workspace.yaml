@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - esbuild
+  - tree-sitter
+  - tree-sitter-javascript
+  - tree-sitter-typescript
+
+minimumReleaseAge: 1440
