@@ -24,6 +24,8 @@ export const scopeStart = (tree: Tree, point: Point) => {
 export const scopeEnd = (tree: Tree, point: Point) => {
   const scope = scopeAt(tree, point)
 
+  if (!scope) return tree.rootNode.endPosition
+
   return scope.endPosition
 }
 
