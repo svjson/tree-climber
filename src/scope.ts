@@ -2,23 +2,17 @@ import { Point, Tree } from 'tree-sitter'
 import { findAncestorOfType, findDescendantOfType, findNodeOfType } from './ast'
 import { LanguageContext } from './lang'
 
-const SCOPE_TYPES = [
-  'formal_parameters',
-  'interface_body',
-  'object',
-  'object_type',
-  'statement_block',
-]
-
 export const scope = (lang: LanguageContext) => {
+  const scopeTypes = lang.nodes.scopes
+
   const scopeAt = (tree: Tree, point: Point) => {
-    return findNodeOfType(tree, point, SCOPE_TYPES)
+    return findNodeOfType(tree, point, scopeTypes)
   }
 
   const scopeStart = (tree: Tree, point: Point) => {
     const scope =
       scopeAt(tree, point) ||
-      findNodeOfType(tree, { ...point, column: point.column - 1 }, SCOPE_TYPES)
+      findNodeOfType(tree, { ...point, column: point.column - 1 }, scopeTypes)
 
     return scope.startPosition
   }
@@ -34,7 +28,7 @@ export const scope = (lang: LanguageContext) => {
   const scopeInto = (tree: Tree, point: Point) => {
     const current = scopeAt(tree, point)
 
-    const childScope = findDescendantOfType(current, SCOPE_TYPES)
+    const childScope = findDescendantOfType(current, scopeTypes)
 
     return childScope?.startPosition
   }
@@ -42,7 +36,7 @@ export const scope = (lang: LanguageContext) => {
   const scopeOut = (tree: Tree, point: Point) => {
     const current = scopeAt(tree, point)
 
-    const parentScope = findAncestorOfType(current.parent, SCOPE_TYPES)
+    const parentScope = findAncestorOfType(current.parent, scopeTypes)
 
     return parentScope?.startPosition
   }

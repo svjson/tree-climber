@@ -3,11 +3,9 @@ import { findNodeOfType } from './ast'
 import { OperationResult } from './types'
 import { LanguageContext } from './lang'
 
-const SPLITTABLE = ['string']
-
 export const split = (lang: LanguageContext) => {
   const expressionAt = (tree: Tree, point: Point): OperationResult | null => {
-    const expNode = findNodeOfType(tree, point, SPLITTABLE)
+    const expNode = findNodeOfType(tree, point, lang.nodes.splittable)
     if (expNode) {
       const delimitLeft = expNode.children[0]
       const expContent = expNode.children[1]
