@@ -44,8 +44,18 @@
   "URL to the Tree-Climber backend server."
   :type 'string)
 
+
+
+;; Local variables
+(defvar-local tree-climber-buffer-language nil)
+
+
 
 ;; Library functions
+
+(defun tree-climber--buffer-language ()
+  "Determine the buffer language."
+  (or tree-climber-buffer-language (treesit-language-at (point))))
 
 (defun tree-climber--buffer-content ()
   "Return full buffer contents as a string."
@@ -74,12 +84,13 @@
               (message "Tree-Climber error contacting %s: %s - %s" endpoint (gethash "error" data) (gethash "message" data))
               (funcall callback nil)))))
 
+
 
 ;; Navigation Commands
 
 (defun tree-climber--navigate (command)
   "Send a navigation COMMAND and move point to response if valid."
-  (let ((payload `((lang . ,(treesit-language-at (point)))
+  (let ((payload `((lang . ,(tree-climber--buffer-language))
                    (command . ,command)
                    (point . ,(tree-climber--point-position))
                    (content . ,(tree-climber--buffer-content)))))
@@ -123,7 +134,7 @@
 
 (defun tree-climber--operate (command)
   "Send an operation COMMAND and replace buffer text at returned range."
-  (let ((payload `((lang . ,(treesit-language-at (point)))
+  (let ((payload `((lang . ,(tree-climber--buffer-language))
                    (command . ,command)
                    (point . ,(tree-climber--point-position))
                    (content . ,(tree-climber--buffer-content)))))
