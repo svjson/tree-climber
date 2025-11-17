@@ -1,11 +1,22 @@
 import Parser from 'tree-sitter'
+import { scope, Scope } from './scope'
+import { barf, Barf } from './barf'
+import { split, Split } from './split'
 
-export interface LanguageContext {
+export interface LanguageContextBase {
   language: string
   parser: Parser
 }
 
-const LANGUAGES = {
+export type LanguageContext = LanguageContextBase & {
+  scope: () => Scope
+  op: {
+    barf: () => Barf
+    split: () => Split
+  }
+}
+
+const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
   typescript: async () => {
     const TypeScript = await import('tree-sitter-typescript')
     const parser = new Parser()
@@ -20,7 +31,20 @@ export const makeLanguageContext = async (lang: string, language: string) => {
   if (!LANGUAGES[language]) {
     throw new Error(`Unsupported language: ${lang}(${language})`)
   }
-  initializedLanguages[language] = await LANGUAGES[language]()
+
+  let _scope: Scope
+  let _barf: Barf
+  let _split: Split
+
+  const ctx = {
+    ...(await LANGUAGES[language]()),
+    scope: () => (_scope ??= scope(ctx)),
+    op: {
+      barf: () => (_barf ??= barf(ctx)),
+      split: () => (_split ??= split(ctx)),
+    },
+  }
+  initializedLanguages[language] = ctx
 }
 
 export const getLanguageContext = async (lang: string) => {
