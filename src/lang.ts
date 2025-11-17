@@ -21,6 +21,19 @@ export type LanguageContext = LanguageContextBase & {
 }
 
 const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
+  javascript: async () => {
+    const JavaScript = await import('tree-sitter-javascript')
+    const parser = new Parser()
+    parser.setLanguage(JavaScript.default)
+    return {
+      language: 'JavaScript',
+      parser,
+      nodes: {
+        scopes: ['object'],
+        splittable: ['string'],
+      },
+    }
+  },
   typescript: async () => {
     const TypeScript = await import('tree-sitter-typescript')
     const parser = new Parser()
