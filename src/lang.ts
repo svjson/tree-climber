@@ -6,6 +6,9 @@ import { split, Split } from './split'
 export interface LanguageContextBase {
   language: string
   parser: Parser
+  nodes: {
+    splittable: string[]
+  }
 }
 
 export type LanguageContext = LanguageContextBase & {
@@ -21,7 +24,13 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
     const TypeScript = await import('tree-sitter-typescript')
     const parser = new Parser()
     parser.setLanguage(TypeScript.typescript)
-    return { language: 'TypeScript', parser }
+    return {
+      language: 'TypeScript',
+      parser,
+      nodes: {
+        splittable: ['string'],
+      },
+    }
   },
 }
 
