@@ -9,7 +9,10 @@ export const nodeTypeAt = (tree: Tree, point: Point): string => {
   return descendant.type
 }
 
-export const findAncestorOfType = (node: SyntaxNode, allowed: string[]) => {
+export const findAncestorOfType = (
+  node: SyntaxNode,
+  allowed: string[]
+): SyntaxNode | null => {
   if (allowed.includes(node.type)) return node
   if (node.parent) return findAncestorOfType(node.parent, allowed)
   return null

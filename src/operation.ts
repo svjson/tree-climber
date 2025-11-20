@@ -10,6 +10,7 @@ export type Op = 'split' | 'barf'
 const OPERATION_COMMANDS: Record<OperationCommandName, [Op, string]> = {
   splitExpr: ['split', 'expressionAt'],
   barfForward: ['barf', 'forwardAt'],
+  raiseExpr: ['raise', 'expressionAt'],
 }
 
 export const executeOperationCommand = (

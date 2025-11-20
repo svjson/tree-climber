@@ -3,6 +3,7 @@ import { scope, Scope } from './scope'
 import { barf, Barf } from './barf'
 import { split, Split } from './split'
 import { node, Node } from './node'
+import { raise, Raise } from './raise'
 
 export interface LanguageContextBase {
   language: string
@@ -17,6 +18,7 @@ export type LanguageContext = LanguageContextBase & {
   node: () => Node
   op: {
     barf: () => Barf
+    raise: () => Raise
     split: () => Split
   }
   scope: () => Scope
@@ -66,6 +68,7 @@ export const makeLanguageContext = async (lang: string, language: string) => {
 
   let _scope: Scope
   let _barf: Barf
+  let _raise: Raise
   let _split: Split
   let _node: Node
 
@@ -74,6 +77,7 @@ export const makeLanguageContext = async (lang: string, language: string) => {
     node: () => (_node ??= node(ctx)),
     op: {
       barf: () => (_barf ??= barf(ctx)),
+      raise: () => (_raise ??= raise(ctx)),
       split: () => (_split ??= split(ctx)),
     },
     scope: () => (_scope ??= scope(ctx)),

@@ -15,6 +15,10 @@ export const NavigationCommandNameSchema = z.enum([
   'scopeOut',
 ])
 
-export const OperationCommandNameSchema = z.enum(['splitExpr', 'barfForward'])
+export const OperationCommandNameSchema = z.enum([
+  'raiseExpr',
+  'splitExpr',
+  'barfForward',
+])
 
 export const QueryCommandNameSchema = z.enum(['nodeAt', 'nodeBefore'])
