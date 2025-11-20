@@ -10,6 +10,7 @@ import { registerErrorHandler } from './error-handler'
 import { registerLoggingHooks } from './hooks'
 import { registerNavigationRoute } from './routes/navigate'
 import { registerOperationRoute } from './routes/operation'
+import { registerQueryRoute } from './routes/query'
 
 export const startService = async (port: number = 4434) => {
   const app = Fastify({
@@ -24,6 +25,7 @@ export const startService = async (port: number = 4434) => {
     registerLoggingHooks(scope)
     registerNavigationRoute(scope)
     registerOperationRoute(scope)
+    registerQueryRoute(scope)
   })
 
   try {

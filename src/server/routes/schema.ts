@@ -4,6 +4,7 @@ import {
   NavigationCommandNameSchema,
   OperationCommandNameSchema,
   PointSchema,
+  QueryCommandNameSchema,
 } from '@src/schema'
 
 /**
@@ -31,4 +32,12 @@ export const OperationResponseBodySchema = z.object({
   start: PointSchema,
   end: PointSchema,
   content: z.string(),
+})
+
+export const QueryRequestBodySchema = RequestBodySchema.extend({
+  command: QueryCommandNameSchema,
+})
+
+export const QueryResponseBodySchema = z.object({
+  type: z.string(),
 })

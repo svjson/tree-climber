@@ -2,6 +2,7 @@ import Parser from 'tree-sitter'
 import { scope, Scope } from './scope'
 import { barf, Barf } from './barf'
 import { split, Split } from './split'
+import { node, Node } from './node'
 
 export interface LanguageContextBase {
   language: string
@@ -13,11 +14,12 @@ export interface LanguageContextBase {
 }
 
 export type LanguageContext = LanguageContextBase & {
-  scope: () => Scope
+  node: () => Node
   op: {
     barf: () => Barf
     split: () => Split
   }
+  scope: () => Scope
 }
 
 const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
@@ -65,14 +67,16 @@ export const makeLanguageContext = async (lang: string, language: string) => {
   let _scope: Scope
   let _barf: Barf
   let _split: Split
+  let _node: Node
 
   const ctx = {
     ...(await LANGUAGES[language]()),
-    scope: () => (_scope ??= scope(ctx)),
+    node: () => (_node ??= node(ctx)),
     op: {
       barf: () => (_barf ??= barf(ctx)),
       split: () => (_split ??= split(ctx)),
     },
+    scope: () => (_scope ??= scope(ctx)),
   }
   initializedLanguages[language] = ctx
 }
