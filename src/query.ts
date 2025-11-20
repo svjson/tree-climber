@@ -12,6 +12,7 @@ export type LanguageConstruct = 'scope'
 const QUERY_COMMANDS: Record<QueryCommandName, keyof Node> = {
   nodeAt: 'at',
   nodeBefore: 'before',
+  nodeParent: 'parent',
 }
 
 export const executeQueryCommand = (

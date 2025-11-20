@@ -21,4 +21,8 @@ export const OperationCommandNameSchema = z.enum([
   'barfForward',
 ])
 
-export const QueryCommandNameSchema = z.enum(['nodeAt', 'nodeBefore'])
+export const QueryCommandNameSchema = z.enum([
+  'nodeAt',
+  'nodeBefore',
+  'nodeParent',
+])

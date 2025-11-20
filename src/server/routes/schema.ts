@@ -38,6 +38,22 @@ export const QueryRequestBodySchema = RequestBodySchema.extend({
   command: QueryCommandNameSchema,
 })
 
-export const QueryResponseBodySchema = z.object({
-  type: z.string(),
+export const BoundaryPointSchema = z.object({
+  pos: PointSchema,
+  index: z.number(),
 })
+
+export const NodeSchema = z.object({
+  type: z.string().nullable(),
+  content: z.string().nullable(),
+  start: BoundaryPointSchema,
+  end: BoundaryPointSchema,
+})
+
+export const NodeInfoSchema = z.object({
+  node: NodeSchema,
+  parent: NodeSchema,
+  children: z.array(NodeSchema),
+})
+
+export const QueryResponseBodySchema = NodeInfoSchema
