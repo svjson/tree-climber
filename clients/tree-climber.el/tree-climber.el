@@ -108,6 +108,12 @@
   (interactive)
   (tree-climber--operate "barfForward"))
 
+(defun tree-climber-raise-expr ()
+  "Raise expression at point."
+  (interactive)
+  (tree-climber--operate "raiseExpr"))
+
+
 (defun tree-climber-scope-start ()
   "Move point to start of current scope."
   (interactive)
@@ -197,6 +203,7 @@
     (define-key map (kbd "C-M-<down>") #'tree-climber-scope-into)
     (define-key map (kbd "C-M-<up>") #'tree-climber-scope-out)
     (define-key map (kbd "M-m j s") #'tree-climber-split-expr)
+    (define-key map (kbd "M-r") #'tree-climber-raise-expr)
     (define-key map (kbd "s-<left>") #'tree-climber-barf-forward)
     (define-key map (kbd "C-c q .") #'tree-climber-query-node-at-point)
     (define-key map (kbd "C-c q <left>") #'tree-climber-query-node-before-point)
