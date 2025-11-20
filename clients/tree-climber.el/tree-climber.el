@@ -128,6 +128,16 @@
   (interactive)
   (tree-climber--navigate "scopeOut"))
 
+(defun tree-climber-query-node-at-point ()
+  "Query the AST for a description of the node at point."
+  (interactive)
+  (tree-climber--query "nodeAt"))
+
+(defun tree-climber-query-node-before-point ()
+  "Query the AST for a description of the previous sibling of the node at point."
+  (interactive)
+  (tree-climber--query "nodeBefore"))
+
 
 
 ;; Operation Commands
@@ -161,6 +171,22 @@
   (interactive)
   (tree-climber--operate "splitExpr"))
 
+
+
+;; Query Commands
+
+(defun tree-climber--query (query)
+  "Send an operation QUERY and display result."
+  (let ((payload `((lang . ,(tree-climber--buffer-language))
+                   (command . ,query)
+                   (point . ,(tree-climber--point-position))
+                   (content . ,(tree-climber--buffer-content)))))
+    (tree-climber--post "/query" payload
+                        (lambda (data)
+                          (message "%s" data)))))
+
+
+
 
 ;; Tree Climber Mode
 
@@ -172,6 +198,8 @@
     (define-key map (kbd "C-M-<up>") #'tree-climber-scope-out)
     (define-key map (kbd "M-m j s") #'tree-climber-split-expr)
     (define-key map (kbd "s-<left>") #'tree-climber-barf-forward)
+    (define-key map (kbd "C-c q .") #'tree-climber-query-node-at-point)
+    (define-key map (kbd "C-c q <left>") #'tree-climber-query-node-before-point)
     map)
   "Keymap for `tree-climber-mode`.")
 
