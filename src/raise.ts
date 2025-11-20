@@ -1,26 +1,49 @@
-import { Point, Tree } from 'tree-sitter'
+import Parser, { Point, SyntaxNode, Tree } from 'tree-sitter'
 import { OperationResult } from './types'
 import { LanguageContext } from './lang'
-import { findAncestorOfType, findNodeOfType } from './ast'
+import { findNodeOfType } from './ast'
+
+const isValidReplacement = (
+  parser: Parser,
+  fullText: string,
+  replaceStart: number,
+  replaceEnd: number,
+  newContent: string
+): boolean => {
+  const newText =
+    fullText.slice(0, replaceStart) +
+    ' ' +
+    newContent +
+    ' ' +
+    fullText.slice(replaceEnd)
+
+  const tree = parser.parse(newText)
+  return !tree.rootNode.hasError
+}
 
 export const raise = (lang: LanguageContext) => {
-  const scopeTypes = lang.nodes.scopes
+  const unitTypes = lang.nodes.units
 
   const expressionAt = (tree: Tree, point: Point): OperationResult | null => {
-    // FIXME: Overload scopeStart/scopeEnd/etc to optionally return the full node ?
-    //    const scopeStart = lang.scope().scopeStart(tree, point)
-    //    const scopeEnd = lang.scope().scopeEnd(tree, point)
+    const expr: SyntaxNode = findNodeOfType(tree, point, unitTypes)
 
-    const scope =
-      lang.scope().scopeAt(tree, point) ||
-      findNodeOfType(tree, { ...point, column: point.column - 1 }, scopeTypes)
+    let parentExpr = expr.parent
 
-    const parentScope = findAncestorOfType(scope.parent, scopeTypes)
-
+    while (
+      !isValidReplacement(
+        lang.parser,
+        tree.rootNode.text,
+        parentExpr.startIndex,
+        parentExpr.endIndex,
+        tree.rootNode.text.substring(expr.startIndex, expr.endIndex)
+      )
+    ) {
+      parentExpr = parentExpr.parent
+    }
     return {
-      start: parentScope.startPosition,
-      end: parentScope.endPosition,
-      content: tree.rootNode.text.substring(scope.startIndex, scope.endIndex),
+      start: parentExpr.startPosition,
+      end: parentExpr.endPosition,
+      content: tree.rootNode.text.substring(expr.startIndex, expr.endIndex),
     }
   }
 

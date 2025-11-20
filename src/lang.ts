@@ -11,6 +11,7 @@ export interface LanguageContextBase {
   nodes: {
     scopes: string[]
     splittable: string[]
+    units: string[]
   }
 }
 
@@ -35,6 +36,7 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
       nodes: {
         scopes: ['object'],
         splittable: ['string'],
+        units: ['object'],
       },
     }
   },
@@ -54,6 +56,13 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
           'statement_block',
         ],
         splittable: ['string'],
+        units: [
+          'interface_body',
+          'object_type',
+          'pair',
+          'predefined_type',
+          'property_signature',
+        ],
       },
     }
   },

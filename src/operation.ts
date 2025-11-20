@@ -5,7 +5,7 @@ import { LanguageContext } from './lang'
 
 export type OperationCommandName = z.infer<typeof OperationCommandNameSchema>
 
-export type Op = 'split' | 'barf'
+export type Op = 'raise' | 'split' | 'barf'
 
 const OPERATION_COMMANDS: Record<OperationCommandName, [Op, string]> = {
   splitExpr: ['split', 'expressionAt'],
