@@ -57,11 +57,17 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
         ],
         splittable: ['string'],
         units: [
+          'array',
+          'boolean',
           'interface_body',
+          'number',
+          'object',
           'object_type',
           'pair',
           'predefined_type',
           'property_signature',
+          'string',
+          'template_string',
         ],
       },
     }

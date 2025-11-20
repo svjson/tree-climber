@@ -29,6 +29,31 @@ describe('TypeScript', () => {
           ].join('\n'),
         })
       })
+
+      it('should raise property_signature to parent property_signature', () => {
+        expect(
+          lang.op.raise().expressionAt(tree, { row: 8, column: 8 })
+        ).toEqual({
+          start: { row: 7, column: 4 },
+          end: { row: 10, column: 5 },
+          content: ['href: string'].join('\n'),
+        })
+      })
+
+      it('should raise object property_signature to parent property_signature', () => {
+        expect(
+          lang.op.raise().expressionAt(tree, { row: 7, column: 4 })
+        ).toEqual({
+          start: { row: 3, column: 2 },
+          end: { row: 11, column: 3 },
+          content: [
+            'link: {',
+            '    href: string',
+            '    templated: boolean',
+            '  }',
+          ].join('\n'),
+        })
+      })
     })
   })
 })

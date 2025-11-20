@@ -2,6 +2,7 @@ import Parser, { Point, SyntaxNode, Tree } from 'tree-sitter'
 import { OperationResult } from './types'
 import { LanguageContext } from './lang'
 import { findNodeOfType } from './ast'
+import { formatOperationResult } from './indent'
 
 const isValidReplacement = (
   parser: Parser,
@@ -40,11 +41,7 @@ export const raise = (lang: LanguageContext) => {
     ) {
       parentExpr = parentExpr.parent
     }
-    return {
-      start: parentExpr.startPosition,
-      end: parentExpr.endPosition,
-      content: tree.rootNode.text.substring(expr.startIndex, expr.endIndex),
-    }
+    return formatOperationResult(tree, parentExpr, expr)
   }
 
   return {
