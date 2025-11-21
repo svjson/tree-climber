@@ -1,5 +1,5 @@
 import { Tree, Point } from 'tree-sitter'
-import { findNodeOfType } from '@src/ast'
+import { findNodeOfType, pointIndex } from '@src/ast'
 import { OperationResult } from '@src/types'
 import { LanguageContext } from '@src/lang'
 
@@ -17,13 +17,35 @@ export const split = (lang: LanguageContext) => {
     const expNode = findNodeOfType(tree, point, lang.nodes.splittable)
     if (expNode) {
       const delimitLeft = expNode.children[0]
-      const expContent = expNode.children[1]
-      const delimitRight = expNode.children[2]
+      const exprNodes = expNode.children.slice(1, expNode.children.length - 1)
+      const delimitRight = expNode.children.at(-1)
 
-      const splitPoint = point.column - expContent.startPosition.column
+      if (exprNodes.length > 1) {
+        const targetNode = exprNodes.find(
+          (n) =>
+            (point.row == n.startPosition.row &&
+              point.column >= n.startPosition.column &&
+              point.column < n.endPosition.column) ||
+            (point.row == n.endPosition.row &&
+              point.column >= n.endPosition.column &&
+              point.column < n.endPosition.column) ||
+            (point.row > n.startPosition.row && point.row < n.endPosition.row)
+        )
+        if (targetNode) {
+          point = { ...targetNode.startPosition }
+        }
+      }
+
+      const nodeContent = expNode.text.slice(
+        delimitLeft.text.length,
+        -delimitRight.text.length
+      )
+
+      const splitPoint = pointIndex(tree, point) - delimitLeft.endIndex
+
       const segments = [
-        expContent.text.substring(0, splitPoint),
-        expContent.text.substring(splitPoint),
+        nodeContent.substring(0, splitPoint),
+        nodeContent.substring(splitPoint),
       ]
 
       const partDelimiter = lang.nodes.delimiters[expNode.parent.type]

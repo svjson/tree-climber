@@ -59,6 +59,8 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
       nodes: {
         delimiters: {
           arguments: ',',
+          array: ',',
+          intersection_type: ' &',
         },
         scopes: [
           'formal_parameters',
@@ -67,7 +69,13 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
           'object_type',
           'statement_block',
         ],
-        splittable: ['string'],
+        splittable: [
+          'array',
+          'object',
+          'object_type',
+          'string',
+          'template_string',
+        ],
         units: [
           'array',
           'boolean',
@@ -81,6 +89,7 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
           'property_signature',
           'string',
           'template_string',
+          'type_query',
         ],
       },
     }

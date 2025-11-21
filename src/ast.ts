@@ -38,3 +38,15 @@ export const findNodeOfType = (
   const deepest = nodeAt(tree, point)
   return findAncestorOfType(deepest, allowed)
 }
+
+export const pointIndex = (tree: Tree, point: Point): number => {
+  const node = nodeAt(tree, point)
+  if (node.startPosition.row === point.row) {
+    return node.startIndex + (point.column - node.startPosition.column)
+  }
+  return node.text.split('\n').reduce((pi, line, n) => {
+    if (n === point.row - node.startPosition.row) return pi + point.column
+    if (n > point.row - node.startPosition.row) return pi
+    return pi + line.length + 1
+  }, node.startIndex)
+}
