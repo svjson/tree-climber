@@ -1,9 +1,16 @@
 import Parser from 'tree-sitter'
-import { scope, Scope } from './scope'
-import { barf, Barf } from './barf'
-import { split, Split } from './split'
-import { node, Node } from './node'
-import { raise, Raise } from './raise'
+import {
+  scope,
+  Scope,
+  barf,
+  Barf,
+  split,
+  Split,
+  node,
+  Node,
+  raise,
+  Raise,
+} from './command'
 
 export interface LanguageContextBase {
   language: string
@@ -60,6 +67,7 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
           'array',
           'boolean',
           'interface_body',
+          'member_expression',
           'number',
           'object',
           'object_type',

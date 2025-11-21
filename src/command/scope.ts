@@ -1,14 +1,30 @@
 import { Point, Tree } from 'tree-sitter'
-import { findAncestorOfType, findDescendantOfType, findNodeOfType } from './ast'
-import { LanguageContext } from './lang'
+import {
+  findAncestorOfType,
+  findDescendantOfType,
+  findNodeOfType,
+} from '@src/ast'
+import { LanguageContext } from '@src/lang'
 
+/**
+ * Scope operations
+ *
+ * @param lang The language context
+ * @returns Scope operations object
+ */
 export const scope = (lang: LanguageContext) => {
   const scopeTypes = lang.nodes.scopes
 
+  /**
+   * Get the scope node at a given point
+   */
   const scopeAt = (tree: Tree, point: Point) => {
     return findNodeOfType(tree, point, scopeTypes)
   }
 
+  /**
+   * Get the start position of the scope at a given point
+   */
   const scopeStart = (tree: Tree, point: Point) => {
     const scope =
       scopeAt(tree, point) ||
@@ -17,6 +33,9 @@ export const scope = (lang: LanguageContext) => {
     return scope.startPosition
   }
 
+  /**
+   * Get the end position of the scope at a given point
+   */
   const scopeEnd = (tree: Tree, point: Point) => {
     const scope = scopeAt(tree, point)
 
@@ -25,6 +44,9 @@ export const scope = (lang: LanguageContext) => {
     return scope.endPosition
   }
 
+  /**
+   * Get the start position of the first child scope within the scope at a given point
+   */
   const scopeInto = (tree: Tree, point: Point) => {
     const current = scopeAt(tree, point)
 
@@ -33,6 +55,9 @@ export const scope = (lang: LanguageContext) => {
     return childScope?.startPosition
   }
 
+  /**
+   * Get the start position of the parent scope of the scope at a given point
+   */
   const scopeOut = (tree: Tree, point: Point) => {
     const current = scopeAt(tree, point)
 

@@ -1,7 +1,13 @@
 import { SyntaxNode, Point, Tree } from 'tree-sitter'
-import { LanguageContext } from './lang'
-import { nodeAt } from './ast'
+import { LanguageContext } from '@src/lang'
+import { nodeAt } from '@src/ast'
 
+/**
+ * Construct a summary of a node, consisting of
+ * the node type name, node text content and its
+ * start and end positions, expressed both as
+ * point(row, column) and index.
+ */
 const toNode = (node?: SyntaxNode) => {
   if (!node) return null
   return {
@@ -18,6 +24,10 @@ const toNode = (node?: SyntaxNode) => {
   }
 }
 
+/**
+ * Construct summaries of a node, its immediate parent and
+ * its immediate children.
+ */
 const toNodeInfo = (node?: SyntaxNode) => {
   if (!node) return null
 
@@ -28,17 +38,29 @@ const toNodeInfo = (node?: SyntaxNode) => {
   }
 }
 
-export const node = (lang: LanguageContext) => {
+/**
+ * Node queries
+ */
+export const node = (_lang: LanguageContext) => {
+  /**
+   * Query node at point
+   */
   const at = (tree: Tree, point: Point) => {
     const node = nodeAt(tree, point)
     return toNodeInfo(node)
   }
 
+  /**
+   * Query node before node at point
+   */
   const before = (tree: Tree, point: Point) => {
     const node = nodeAt(tree, point)?.previousSibling
     return toNodeInfo(node)
   }
 
+  /**
+   * Query parent node of node at point
+   */
   const parent = (tree: Tree, point: Point) => {
     const node = nodeAt(tree, point)?.parent
     return toNodeInfo(node)

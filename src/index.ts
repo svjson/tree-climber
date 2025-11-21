@@ -1,7 +1,3 @@
-export { split } from './split'
-export { barf } from './barf'
-export { scope } from './scope'
+export { barf, node, raise, scope, split } from './command'
 
-export type { Scope } from './scope'
-export type { Barf } from './barf'
-export type { Split } from './split'
+export type { Barf, Node, Raise, Scope, Split } from './command'

@@ -1,7 +1,7 @@
 import { Point } from 'tree-sitter'
 import z from 'zod/v4'
 
-import { Node } from '@src/node'
+import { Node } from '@src/command/node'
 import { QueryCommandNameSchema } from './schema'
 import { LanguageContext } from './lang'
 

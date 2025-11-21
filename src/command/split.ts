@@ -1,9 +1,18 @@
 import { Tree, Point } from 'tree-sitter'
-import { findNodeOfType } from './ast'
-import { OperationResult } from './types'
-import { LanguageContext } from './lang'
+import { findNodeOfType } from '@src/ast'
+import { OperationResult } from '@src/types'
+import { LanguageContext } from '@src/lang'
 
+/**
+ * Split nodes - divide a delimited expression into two.
+ *
+ * @param lang The language context
+ * @returns Split operations object
+ */
 export const split = (lang: LanguageContext) => {
+  /**
+   * Split expression at point
+   */
   const expressionAt = (tree: Tree, point: Point): OperationResult | null => {
     const expNode = findNodeOfType(tree, point, lang.nodes.splittable)
     if (expNode) {
