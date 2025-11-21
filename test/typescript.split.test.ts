@@ -27,6 +27,19 @@ describe('TypeScript', () => {
           content: '"my" " dapper string"',
         })
       })
+
+      it('should split argument string at point and separate with comma', () => {
+        const source = `callFunction("my dapper string")`
+        const tree = lang.parser.parse(source)
+
+        expect(
+          lang.op.split().expressionAt(tree, { row: 0, column: 20 })
+        ).toEqual({
+          start: { row: 0, column: 13 },
+          end: { row: 0, column: 31 },
+          content: '"my dap", "per string"',
+        })
+      })
     })
   })
 })

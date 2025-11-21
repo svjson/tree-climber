@@ -21,15 +21,15 @@ export const split = (lang: LanguageContext) => {
       const delimitRight = expNode.children[2]
 
       const splitPoint = point.column - expContent.startPosition.column
-
       const segments = [
         expContent.text.substring(0, splitPoint),
         expContent.text.substring(splitPoint),
       ]
 
+      const partDelimiter = lang.nodes.delimiters[expNode.parent.type]
       const content = segments
         .map((s) => `${delimitLeft.text}${s}${delimitRight.text}`)
-        .join(' ')
+        .join(partDelimiter ? `${partDelimiter} ` : ' ')
 
       return {
         start: expNode.startPosition,

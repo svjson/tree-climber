@@ -16,6 +16,7 @@ export interface LanguageContextBase {
   language: string
   parser: Parser
   nodes: {
+    delimiters: Record<string, string>
     scopes: string[]
     splittable: string[]
     units: string[]
@@ -41,6 +42,7 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
       language: 'JavaScript',
       parser,
       nodes: {
+        delimiters: {},
         scopes: ['object'],
         splittable: ['string'],
         units: ['object'],
@@ -55,6 +57,9 @@ const LANGUAGES: Record<string, () => Promise<LanguageContextBase>> = {
       language: 'TypeScript',
       parser,
       nodes: {
+        delimiters: {
+          arguments: ',',
+        },
         scopes: [
           'formal_parameters',
           'interface_body',
