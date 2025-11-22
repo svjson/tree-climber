@@ -314,7 +314,12 @@
                                   (forward-char (gethash "column" end))
                                   (delete-region start-pos (point))
                                   (goto-char start-pos)
-                                  (insert content)))))))))
+                                  (insert content)))
+                              (when-let ((p (gethash "point" data)))
+                                (message "Move to %s" p)
+                                (goto-char (point-min))
+                                (forward-line (gethash "row" p))
+                                (forward-char (gethash "column" p)))))))))
 
 (defun tree-climber-split-expr ()
   "Split the expression at point."
