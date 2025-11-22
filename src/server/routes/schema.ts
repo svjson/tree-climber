@@ -32,6 +32,7 @@ export const OperationResponseBodySchema = z.object({
   start: PointSchema,
   end: PointSchema,
   content: z.string(),
+  point: z.optional(PointSchema),
 })
 
 export const QueryRequestBodySchema = RequestBodySchema.extend({

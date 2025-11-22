@@ -57,6 +57,7 @@ export const split = (lang: LanguageContext) => {
         start: expNode.startPosition,
         end: expNode.endPosition,
         content,
+        point,
       }
     }
   }
